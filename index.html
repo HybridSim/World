@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced System Dynamics Dashboard</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+:root{
+    --sidebar-width:300px;
+    --plot-height:150px;
+    --border:#d9d9d9;
+}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    overflow:hidden;
+}
+header{
+    height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 12px;
+    border-bottom:1px solid var(--border);
+}
+.main-layout{
+    display:flex;
+    height:calc(100vh - 56px);
+}
+.sidebar{
+    width:var(--sidebar-width);
+    overflow-y:auto;
+    border-right:1px solid var(--border);
+    padding:8px;
+    background:#f7f7f7;
+}
+.content{
+    flex:1;
+    overflow-y:auto;
+    padding:8px;
+}
+details{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:8px;
+    margin-bottom:8px;
+}
+summary{
+    padding:8px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:12px;
+}
+.slider-box{
+    padding:6px 8px;
+}
+.slider-box label{
+    display:block;
+    font-size:10px;
+    margin-bottom:2px;
+    font-weight:bold;
+}
+.slider-box input{
+    width:100%;
+}
+.plot-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+}
+.plot-card{
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+}
+.plot-title{
+    padding:5px 8px;
+    font-size:10px;
+    font-weight:bold;
+    border-bottom:1px solid #eee;
+}
+.plot{
+    height:150px;
+}
+.btn{
+    border:1px solid #ccc;
+    background:white;
+    padding:6px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:12px;
+}
+.kpi-row{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:6px;
+    margin-bottom:8px;
+}
+.kpi{
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px;
+}
+.kpi-title{
+    font-size:10px;
+    color:#666;
+}
+.kpi-value{
+    font-size:18px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1 style="font-size:18px;">Advanced System Dynamics Dashboard</h1>
+
+<div style="display:flex;gap:6px;">
+<button class="btn">▶ Run</button>
+<button class="btn">⏸ Pause</button>
+<button class="btn">⟲ Reset</button>
+
+<a class="btn" download="advanced_dashboard.html" href="#" id="downloadBtn">
+⬇ Download Interface
+</a>
+</div>
+</header>
+
+<div class="main-layout">
+
+<div class="sidebar">
+
+<details open>
+<summary>Healthcare Parameters</summary>
+
+<div class="slider-box">
+<label>Elective Capacity</label>
+<input type="range" min="0" max="500" value="267">
+</div>
+
+<div class="slider-box">
+<label>Bed Capacity</label>
+<input type="range" min="0" max="8000" value="5600">
+</div>
+
+<div class="slider-box">
+<label>Emergency Admissions</label>
+<input type="range" min="0" max="150" value="60">
+</div>
+
+</details>
+
+<details open>
+<summary>Workforce Parameters</summary>
+
+<div class="slider-box">
+<label>Burnout Sensitivity</label>
+<input type="range" min="0" max="1" step="0.01" value="0.35">
+</div>
+
+<div class="slider-box">
+<label>Productivity Loss</label>
+<input type="range" min="0" max="0.5" step="0.01" value="0.20">
+</div>
+
+</details>
+
+</div>
+
+<div class="content">
+
+<div class="kpi-row">
+
+<div class="kpi">
+<div class="kpi-title">Occupied Beds</div>
+<div class="kpi-value">5,230</div>
+</div>
+
+<div class="kpi">
+<div class="kpi-title">Waiting List</div>
+<div class="kpi-value">212k</div>
+</div>
+
+<div class="kpi">
+<div class="kpi-title">Burnout</div>
+<div class="kpi-value">0.42</div>
+</div>
+
+<div class="kpi">
+<div class="kpi-title">Occupancy</div>
+<div class="kpi-value">93%</div>
+</div>
+
+<div class="kpi">
+<div class="kpi-title">Admissions</div>
+<div class="kpi-value">78</div>
+</div>
+
+<div class="kpi">
+<div class="kpi-title">Delayed Discharge</div>
+<div class="kpi-value">840</div>
+</div>
+
+</div>
+
+<div class="plot-grid">
+
+<div class="plot-card">
+<div class="plot-title">Waiting List</div>
+<div id="plot1" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Occupied Beds</div>
+<div id="plot2" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Burnout</div>
+<div id="plot3" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Admissions</div>
+<div id="plot4" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Population Pressure</div>
+<div id="plot5" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Climate Stress</div>
+<div id="plot6" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Economic Stress</div>
+<div id="plot7" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Policy Response</div>
+<div id="plot8" class="plot"></div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function makeSeries(mult){
+
+    let x=[], y=[];
+
+    for(let i=0;i<300;i++){
+
+        x.push(i);
+
+        y.push(
+            100 +
+            Math.sin(i/20)*30 +
+            i*0.3*mult
+        );
+    }
+
+    return {x,y};
+}
+
+function layout(){
+
+    return {
+
+        margin:{
+            t:10,
+            l:30,
+            r:5,
+            b:20
+        },
+
+        showlegend:false,
+
+        xaxis:{
+            tickfont:{size:8},
+            showgrid:false
+        },
+
+        yaxis:{
+            tickfont:{size:8},
+            gridcolor:"#f0f0f0"
+        }
+
+    };
+}
+
+function render(id,m){
+
+    const s=makeSeries(m);
+
+    Plotly.newPlot(
+        id,
+        [{
+            x:s.x,
+            y:s.y,
+            mode:'lines',
+            line:{width:1.5}
+        }],
+        layout(),
+        {
+            displayModeBar:false,
+            responsive:true
+        }
+    );
+}
+
+render('plot1',1);
+render('plot2',1.2);
+render('plot3',0.8);
+render('plot4',1.1);
+render('plot5',1.4);
+render('plot6',0.9);
+render('plot7',1.5);
+render('plot8',0.7);
+
+document.getElementById('downloadBtn').href =
+'data:text/html;charset=utf-8,' +
+encodeURIComponent(document.documentElement.outerHTML);
+
+</script>
+
+</body>
+</html>
