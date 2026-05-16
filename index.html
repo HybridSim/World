@@ -1,21 +1,36 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Advanced System Dynamics Dashboard</title>
+
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 <style>
+
 :root{
     --sidebar-width:300px;
     --plot-height:150px;
+    --card-radius:8px;
     --border:#d9d9d9;
+    --bg:#f7f7f7;
 }
+
+*{
+    box-sizing:border-box;
+}
+
 body{
     margin:0;
     font-family:Arial,sans-serif;
+    background:white;
     overflow:hidden;
 }
+
+/* HEADER */
+
 header{
     height:56px;
     display:flex;
@@ -23,187 +38,430 @@ header{
     justify-content:space-between;
     padding:0 12px;
     border-bottom:1px solid var(--border);
-}
-.main-layout{
-    display:flex;
-    height:calc(100vh - 56px);
-}
-.sidebar{
-    width:var(--sidebar-width);
-    overflow-y:auto;
-    border-right:1px solid var(--border);
-    padding:8px;
-    background:#f7f7f7;
-}
-.content{
-    flex:1;
-    overflow-y:auto;
-    padding:8px;
-}
-details{
     background:white;
-    border:1px solid var(--border);
-    border-radius:8px;
-    margin-bottom:8px;
 }
-summary{
-    padding:8px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:12px;
+
+header h1{
+    margin:0;
+    font-size:18px;
+    font-weight:700;
+    color:#111;
 }
-.slider-box{
-    padding:6px 8px;
-}
-.slider-box label{
-    display:block;
-    font-size:10px;
-    margin-bottom:2px;
-    font-weight:bold;
-}
-.slider-box input{
-    width:100%;
-}
-.plot-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
+
+.toolbar{
+    display:flex;
     gap:6px;
+    align-items:center;
 }
-.plot-card{
-    border:1px solid var(--border);
-    border-radius:8px;
-    overflow:hidden;
-}
-.plot-title{
-    padding:5px 8px;
-    font-size:10px;
-    font-weight:bold;
-    border-bottom:1px solid #eee;
-}
-.plot{
-    height:150px;
-}
+
 .btn{
-    border:1px solid #ccc;
+    border:1px solid var(--border);
     background:white;
     padding:6px 10px;
     border-radius:6px;
     cursor:pointer;
     font-size:12px;
+    font-weight:bold;
 }
+
+.btn:hover{
+    background:#f0f0f0;
+}
+
+/* MAIN LAYOUT */
+
+.main-layout{
+    display:flex;
+    height:calc(100vh - 56px);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:var(--sidebar-width);
+    background:var(--bg);
+    border-right:1px solid var(--border);
+    overflow-y:auto;
+    padding:8px;
+}
+
+.sidebar-section{
+    margin-bottom:8px;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:var(--card-radius);
+}
+
+.sidebar-section summary{
+    padding:8px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:bold;
+    background:#fafafa;
+}
+
+.slider-box{
+    padding:6px 8px;
+    border-top:1px solid #f0f0f0;
+}
+
+.slider-box label{
+    display:block;
+    font-size:10px;
+    font-weight:bold;
+    margin-bottom:2px;
+    color:#333;
+}
+
+.slider-box input{
+    width:100%;
+}
+
+.slider-value{
+    font-size:10px;
+    color:#555;
+    margin-top:2px;
+}
+
+/* MAIN CONTENT */
+
+.content{
+    flex:1;
+    overflow-y:auto;
+    padding:8px;
+}
+
+/* KPI BAR */
+
 .kpi-row{
     display:grid;
     grid-template-columns:repeat(6,1fr);
     gap:6px;
     margin-bottom:8px;
 }
-.kpi{
+
+.kpi-card{
+    background:white;
     border:1px solid var(--border);
-    border-radius:8px;
+    border-radius:var(--card-radius);
     padding:8px;
 }
+
 .kpi-title{
     font-size:10px;
     color:#666;
+    margin-bottom:4px;
 }
+
 .kpi-value{
     font-size:18px;
     font-weight:bold;
+    color:#111;
 }
+
+/* TABS */
+
+.tabs{
+    display:flex;
+    gap:4px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+}
+
+.tab-btn{
+    border:1px solid var(--border);
+    background:white;
+    padding:6px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.tab-btn.active{
+    background:#111;
+    color:white;
+}
+
+/* PLOT GRID */
+
+.plot-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+}
+
+.plot-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:var(--card-radius);
+    overflow:hidden;
+}
+
+.plot-title{
+    font-size:10px;
+    font-weight:bold;
+    padding:5px 8px;
+    border-bottom:1px solid #f0f0f0;
+    background:#fafafa;
+}
+
+.plot{
+    height:var(--plot-height);
+}
+
+/* DOCUMENTATION */
+
+.docs{
+    margin-top:8px;
+    border:1px solid var(--border);
+    border-radius:var(--card-radius);
+    background:white;
+}
+
+.docs summary{
+    padding:8px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.docs-content{
+    padding:10px;
+    font-size:12px;
+    line-height:1.5;
+    border-top:1px solid #f0f0f0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1600px){
+
+    .plot-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:1200px){
+
+    .plot-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .kpi-row{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:900px){
+
+    .main-layout{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:300px;
+    }
+
+    .plot-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
 </style>
 </head>
+
 <body>
 
 <header>
-<h1 style="font-size:18px;">Advanced System Dynamics Dashboard</h1>
 
-<div style="display:flex;gap:6px;">
-<button class="btn">▶ Run</button>
-<button class="btn">⏸ Pause</button>
-<button class="btn">⟲ Reset</button>
+<h1>Advanced System Dynamics Dashboard</h1>
 
-<a class="btn" download="advanced_dashboard.html" href="#" id="downloadBtn">
-⬇ Download Interface
-</a>
+<div class="toolbar">
+
+<button class="btn" onclick="runSimulation()">▶ Run</button>
+<button class="btn" onclick="pauseSimulation()">⏸ Pause</button>
+<button class="btn" onclick="resetSimulation()">⟲ Reset</button>
+<button class="btn" onclick="randomizeParameters()">⚡ Randomize</button>
+<button class="btn" onclick="exportData()">⬇ Export</button>
+
+<div style="font-size:12px;font-weight:bold;padding-left:8px;">
+Day: <span id="simDay">0</span>
 </div>
+
+</div>
+
 </header>
 
 <div class="main-layout">
 
+<!-- SIDEBAR -->
+
 <div class="sidebar">
 
-<details open>
+<details class="sidebar-section" open>
 <summary>Healthcare Parameters</summary>
 
 <div class="slider-box">
 <label>Elective Capacity</label>
-<input type="range" min="0" max="500" value="267">
+<input type="range" min="0" max="500" value="267" id="s1">
+<div class="slider-value" id="s1v">267</div>
 </div>
 
 <div class="slider-box">
 <label>Bed Capacity</label>
-<input type="range" min="0" max="8000" value="5600">
+<input type="range" min="0" max="8000" value="5600" id="s2">
+<div class="slider-value" id="s2v">5600</div>
 </div>
 
 <div class="slider-box">
 <label>Emergency Admissions</label>
-<input type="range" min="0" max="150" value="60">
+<input type="range" min="0" max="150" value="60" id="s3">
+<div class="slider-value" id="s3v">60</div>
+</div>
+
+<div class="slider-box">
+<label>Length of Stay</label>
+<input type="range" min="1" max="40" value="23" id="s4">
+<div class="slider-value" id="s4v">23</div>
 </div>
 
 </details>
 
-<details open>
+<details class="sidebar-section" open>
 <summary>Workforce Parameters</summary>
 
 <div class="slider-box">
 <label>Burnout Sensitivity</label>
-<input type="range" min="0" max="1" step="0.01" value="0.35">
+<input type="range" min="0" max="1" step="0.01" value="0.35" id="s5">
+<div class="slider-value" id="s5v">0.35</div>
 </div>
 
 <div class="slider-box">
 <label>Productivity Loss</label>
-<input type="range" min="0" max="0.5" step="0.01" value="0.20">
+<input type="range" min="0" max="0.5" step="0.01" value="0.20" id="s6">
+<div class="slider-value" id="s6v">0.20</div>
+</div>
+
+<div class="slider-box">
+<label>Staff Retention</label>
+<input type="range" min="0" max="1" step="0.01" value="0.75" id="s7">
+<div class="slider-value" id="s7v">0.75</div>
+</div>
+
+</details>
+
+<details class="sidebar-section">
+<summary>Population Dynamics</summary>
+
+<div class="slider-box">
+<label>Population Growth</label>
+<input type="range" min="0" max="5" step="0.1" value="1.2" id="s8">
+<div class="slider-value" id="s8v">1.2</div>
+</div>
+
+<div class="slider-box">
+<label>Ageing Pressure</label>
+<input type="range" min="0" max="1" step="0.01" value="0.55" id="s9">
+<div class="slider-value" id="s9v">0.55</div>
+</div>
+
+</details>
+
+<details class="sidebar-section">
+<summary>Economic Parameters</summary>
+
+<div class="slider-box">
+<label>Inflation</label>
+<input type="range" min="0" max="15" step="0.1" value="3" id="s10">
+<div class="slider-value" id="s10v">3</div>
+</div>
+
+<div class="slider-box">
+<label>Government Funding</label>
+<input type="range" min="0" max="100" value="50" id="s11">
+<div class="slider-value" id="s11v">50</div>
+</div>
+
+</details>
+
+<details class="sidebar-section">
+<summary>Climate & Energy</summary>
+
+<div class="slider-box">
+<label>Energy Shock</label>
+<input type="range" min="0" max="1" step="0.01" value="0.2" id="s12">
+<div class="slider-value" id="s12v">0.2</div>
+</div>
+
+<div class="slider-box">
+<label>Climate Stress</label>
+<input type="range" min="0" max="1" step="0.01" value="0.3" id="s13">
+<div class="slider-value" id="s13v">0.3</div>
 </div>
 
 </details>
 
 </div>
 
+<!-- MAIN CONTENT -->
+
 <div class="content">
+
+<!-- KPI ROW -->
 
 <div class="kpi-row">
 
-<div class="kpi">
+<div class="kpi-card">
 <div class="kpi-title">Occupied Beds</div>
-<div class="kpi-value">5,230</div>
+<div class="kpi-value" id="kpi1">5,230</div>
 </div>
 
-<div class="kpi">
+<div class="kpi-card">
 <div class="kpi-title">Waiting List</div>
-<div class="kpi-value">212k</div>
+<div class="kpi-value" id="kpi2">212k</div>
 </div>
 
-<div class="kpi">
-<div class="kpi-title">Burnout</div>
-<div class="kpi-value">0.42</div>
+<div class="kpi-card">
+<div class="kpi-title">Burnout Index</div>
+<div class="kpi-value" id="kpi3">0.42</div>
 </div>
 
-<div class="kpi">
+<div class="kpi-card">
 <div class="kpi-title">Occupancy</div>
-<div class="kpi-value">93%</div>
+<div class="kpi-value" id="kpi4">93%</div>
 </div>
 
-<div class="kpi">
+<div class="kpi-card">
 <div class="kpi-title">Admissions</div>
-<div class="kpi-value">78</div>
+<div class="kpi-value" id="kpi5">78</div>
 </div>
 
-<div class="kpi">
+<div class="kpi-card">
 <div class="kpi-title">Delayed Discharge</div>
-<div class="kpi-value">840</div>
+<div class="kpi-value" id="kpi6">840</div>
 </div>
 
 </div>
+
+<!-- TABS -->
+
+<div class="tabs">
+<button class="tab-btn active">Core Dynamics</button>
+<button class="tab-btn">Healthcare</button>
+<button class="tab-btn">Economy</button>
+<button class="tab-btn">Climate</button>
+<button class="tab-btn">Population</button>
+<button class="tab-btn">Policy</button>
+<button class="tab-btn">Sensitivity</button>
+<button class="tab-btn">Scenarios</button>
+</div>
+
+<!-- PLOTS -->
 
 <div class="plot-grid">
 
@@ -228,26 +486,76 @@ summary{
 </div>
 
 <div class="plot-card">
-<div class="plot-title">Population Pressure</div>
+<div class="plot-title">Discharge Delay</div>
 <div id="plot5" class="plot"></div>
 </div>
 
 <div class="plot-card">
-<div class="plot-title">Climate Stress</div>
+<div class="plot-title">Acute Inpatients</div>
 <div id="plot6" class="plot"></div>
 </div>
 
 <div class="plot-card">
-<div class="plot-title">Economic Stress</div>
+<div class="plot-title">Community Care</div>
 <div id="plot7" class="plot"></div>
 </div>
 
 <div class="plot-card">
-<div class="plot-title">Policy Response</div>
+<div class="plot-title">Elective Capacity</div>
 <div id="plot8" class="plot"></div>
 </div>
 
+<div class="plot-card">
+<div class="plot-title">Population Pressure</div>
+<div id="plot9" class="plot"></div>
 </div>
+
+<div class="plot-card">
+<div class="plot-title">Energy Costs</div>
+<div id="plot10" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Inflation</div>
+<div id="plot11" class="plot"></div>
+</div>
+
+<div class="plot-card">
+<div class="plot-title">Policy Effectiveness</div>
+<div id="plot12" class="plot"></div>
+</div>
+
+</div>
+
+<!-- DOCUMENTATION -->
+
+<details class="docs">
+<summary>Model Documentation</summary>
+<div class="docs-content">
+
+This dashboard architecture is optimized for large-scale system dynamics models with:
+
+<ul>
+<li>High parameter counts</li>
+<li>Large causal structures</li>
+<li>Many simultaneous scenarios</li>
+<li>Policy experimentation</li>
+<li>Sensitivity analysis</li>
+<li>Dense comparative visualization</li>
+</ul>
+
+The interface prioritizes:
+
+<ul>
+<li>Minimal scrolling</li>
+<li>High information density</li>
+<li>Fast interaction</li>
+<li>Compact visualization</li>
+<li>Research-oriented workflows</li>
+</ul>
+
+</div>
+</details>
 
 </div>
 
@@ -255,25 +563,50 @@ summary{
 
 <script>
 
-function makeSeries(mult){
+/* SLIDER VALUE UPDATES */
 
-    let x=[], y=[];
+for(let i=1;i<=13;i++){
 
-    for(let i=0;i<300;i++){
+    const s=document.getElementById('s'+i);
+    const v=document.getElementById('s'+i+'v');
 
-        x.push(i);
+    s.addEventListener('input',()=>{
+        v.innerHTML=s.value;
+        updatePlots();
+    });
+
+}
+
+/* SIMULATION */
+
+let currentDay=0;
+let timer=null;
+
+function generateSeries(multiplier=1){
+
+    let x=[];
+    let y=[];
+
+    for(let t=0;t<400;t++){
+
+        x.push(t);
 
         y.push(
-            100 +
-            Math.sin(i/20)*30 +
-            i*0.3*mult
+            100+
+            50*Math.sin(t/40)+
+            t*0.2*multiplier+
+            Math.random()*5
         );
+
     }
 
     return {x,y};
+
 }
 
-function layout(){
+/* COMMON PLOT LAYOUT */
+
+function compactLayout(){
 
     return {
 
@@ -284,26 +617,35 @@ function layout(){
             b:20
         },
 
-        showlegend:false,
+        paper_bgcolor:'white',
+        plot_bgcolor:'white',
 
         xaxis:{
+            showgrid:false,
             tickfont:{size:8},
-            showgrid:false
+            zeroline:false
         },
 
         yaxis:{
+            showgrid:true,
+            gridcolor:'#f0f0f0',
             tickfont:{size:8},
-            gridcolor:"#f0f0f0"
-        }
+            zeroline:false
+        },
+
+        showlegend:false
 
     };
+
 }
 
-function render(id,m){
+/* PLOT RENDERING */
 
-    const s=makeSeries(m);
+function renderPlot(id,mult){
 
-    Plotly.newPlot(
+    const s=generateSeries(mult);
+
+    Plotly.react(
         id,
         [{
             x:s.x,
@@ -311,28 +653,91 @@ function render(id,m){
             mode:'lines',
             line:{width:1.5}
         }],
-        layout(),
+        compactLayout(),
         {
-            displayModeBar:false,
-            responsive:true
+            responsive:true,
+            displayModeBar:false
         }
     );
+
 }
 
-render('plot1',1);
-render('plot2',1.2);
-render('plot3',0.8);
-render('plot4',1.1);
-render('plot5',1.4);
-render('plot6',0.9);
-render('plot7',1.5);
-render('plot8',0.7);
+function updatePlots(){
 
-document.getElementById('downloadBtn').href =
-'data:text/html;charset=utf-8,' +
-encodeURIComponent(document.documentElement.outerHTML);
+    renderPlot('plot1',1);
+    renderPlot('plot2',1.1);
+    renderPlot('plot3',0.7);
+    renderPlot('plot4',0.9);
+    renderPlot('plot5',1.2);
+    renderPlot('plot6',1.3);
+    renderPlot('plot7',0.8);
+    renderPlot('plot8',1.0);
+    renderPlot('plot9',1.4);
+    renderPlot('plot10',1.1);
+    renderPlot('plot11',0.6);
+    renderPlot('plot12',0.5);
+
+}
+
+/* CONTROLS */
+
+function runSimulation(){
+
+    clearInterval(timer);
+
+    timer=setInterval(()=>{
+
+        currentDay+=5;
+
+        document.getElementById('simDay').innerHTML=currentDay;
+
+        updatePlots();
+
+    },300);
+
+}
+
+function pauseSimulation(){
+    clearInterval(timer);
+}
+
+function resetSimulation(){
+
+    currentDay=0;
+
+    document.getElementById('simDay').innerHTML=0;
+
+    updatePlots();
+
+}
+
+function randomizeParameters(){
+
+    for(let i=1;i<=13;i++){
+
+        const s=document.getElementById('s'+i);
+
+        s.value=Math.random()*s.max;
+
+        document.getElementById('s'+i+'v').innerHTML=
+            Number(s.value).toFixed(2);
+
+    }
+
+    updatePlots();
+
+}
+
+function exportData(){
+    alert('Export system can be connected here.');
+}
+
+/* INITIALIZE */
+
+updatePlots();
 
 </script>
 
 </body>
 </html>
+```
